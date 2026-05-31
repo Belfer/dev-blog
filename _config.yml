@@ -1,6 +1,6 @@
 title: "C++ Game Engine Blog"
 description: "Low-level game engine development, rendering, and systems programming in C++"
-baseurl: "/dev-blog"
+baseurl: "/devlog"
 url: "https://belfer.github.io"
 
 markdown: kramdown
