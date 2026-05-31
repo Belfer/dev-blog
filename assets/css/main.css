@@ -53,11 +53,38 @@ a:hover {
 /* Badges */
 .badge {
   font-weight: 500;
+  padding: 0.45em 0.7em;
+  border-radius: 999px;
 }
 
-.tag-cpp { background: #4f46e5; }
-.tag-ecs { background: #059669; }
-.tag-architecture { background: #f59e0b; }
+/* default fallback */
+.tag-default {
+  background: #374151;
+  color: #e5e7eb;
+}
+
+/* individual tags */
+.tag-cpp {
+  background: #2563eb;
+  color: white;
+}
+
+.tag-ecs {
+  background: #10b981;
+  color: white;
+}
+
+.tag-architecture {
+  background: #f59e0b;
+  color: black;
+}
+
+/* hover effect */
+a.badge:hover {
+  filter: brightness(1.15);
+  transform: translateY(-1px);
+  transition: 0.15s ease;
+}
 
 /* Code blocks */
 pre {
