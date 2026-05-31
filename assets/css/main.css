@@ -55,6 +55,10 @@ a:hover {
   font-weight: 500;
 }
 
+.tag-cpp { background: #4f46e5; }
+.tag-ecs { background: #059669; }
+.tag-architecture { background: #f59e0b; }
+
 /* Code blocks */
 pre {
   background: var(--code-bg);

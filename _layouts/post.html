@@ -14,7 +14,10 @@ layout: default
 
     <div class="mt-2">
       {% for tag in page.tags %}
-        <span class="badge bg-secondary me-1">{{ tag }}</span>
+        <a href="{{ '/tags/' | relative_url }}#{{ tag }}"
+          class="badge me-1 tag-{{ tag }}">
+          {{ tag }}
+        </a>
       {% endfor %}
     </div>
 
