@@ -1,0 +1,45 @@
+---
+layout: default
+title: Home
+---
+
+<div class="row">
+
+  <div class="col-md-8">
+
+    <h1>Latest Posts</h1>
+
+    {% for post in site.posts %}
+
+      <div class="card mb-3">
+        <div class="card-body">
+
+          <h3>
+            <a href="{{ post.url }}">{{ post.title }}</a>
+          </h3>
+
+          <p class="text-muted">
+            {{ post.date | date: "%Y-%m-%d" }}
+          </p>
+
+          <p>{{ post.excerpt }}</p>
+
+          {% for tag in post.tags %}
+            <span class="badge bg-secondary">{{ tag }}</span>
+          {% endfor %}
+
+        </div>
+      </div>
+
+    {% endfor %}
+
+  </div>
+
+  <div class="col-md-4">
+    <div class="p-3 bg-light rounded">
+      <h5>About</h5>
+      <p>C++ game engine devlog focused on rendering, ECS, and systems programming.</p>
+    </div>
+  </div>
+
+</div>

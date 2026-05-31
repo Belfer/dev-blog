@@ -1,0 +1,58 @@
+---
+layout: default
+title: Tags
+---
+
+<h1 class="mb-4">Tags</h1>
+
+{% assign sorted_tags = site.tags | sort %}
+
+<div class="row">
+
+  <div class="col-md-4">
+
+    <ul class="list-group">
+
+      {% for tag in sorted_tags %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+
+          <a href="#{{ tag[0] }}">
+            {{ tag[0] }}
+          </a>
+
+          <span class="badge bg-primary rounded-pill">
+            {{ tag[1].size }}
+          </span>
+
+        </li>
+      {% endfor %}
+
+    </ul>
+
+  </div>
+
+  <div class="col-md-8">
+
+    {% for tag in sorted_tags %}
+
+      <section id="{{ tag[0] }}" class="mb-5">
+
+        <h3>{{ tag[0] }}</h3>
+
+        <ul class="list-group">
+
+          {% for post in tag[1] %}
+            <li class="list-group-item">
+              <a href="{{ post.url }}">{{ post.title }}</a>
+            </li>
+          {% endfor %}
+
+        </ul>
+
+      </section>
+
+    {% endfor %}
+
+  </div>
+
+</div>

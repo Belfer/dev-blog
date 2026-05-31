@@ -1,0 +1,11 @@
+title: "C++ Game Engine Blog"
+description: "Low-level game engine development, rendering, and systems programming in C++"
+baseurl: ""
+url: "https://yourusername.github.io"
+
+markdown: kramdown
+
+plugins:
+  - jekyll-feed
+
+permalink: /:categories/:title/

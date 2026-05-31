@@ -1,0 +1,15 @@
+<header class="py-4 mb-4 border-bottom bg-light">
+  <div class="container">
+
+    <h1 class="h3 mb-1">
+      {{ page.title | default: site.title }}
+    </h1>
+
+    {% if page.description %}
+      <p class="text-muted mb-0">{{ page.description }}</p>
+    {% else %}
+      <p class="text-muted mb-0">{{ site.description }}</p>
+    {% endif %}
+
+  </div>
+</header>
