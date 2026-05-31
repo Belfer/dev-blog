@@ -16,11 +16,15 @@
 <body>
 
   {% include navbar.html %}
-  {% include header.html %}
+  <!--{% include header.html %}-->
 
-  <main class="container mt-4">
-    {{ content }}
-  </main>
+<main class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-9">
+      {{ content }}
+    </div>
+  </div>
+</main>
 
   {% include footer.html %}
 

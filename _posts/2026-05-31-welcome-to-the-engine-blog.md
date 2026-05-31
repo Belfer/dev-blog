@@ -8,17 +8,11 @@ categories: engine
 Today we implement a simple Entity Component System...
 
 ```cpp
-struct Position {
-    float x, y;
-};
+int main() {
+    return 0;
+}
+```
 
----
-
-# 9. Tags page (basic aggregation)
-
-`tags/index.html`
-
-```html
 ---
 layout: default
 title: Tags

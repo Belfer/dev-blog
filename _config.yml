@@ -4,6 +4,7 @@ baseurl: "/dev-blog"
 url: "https://belfer.github.io"
 
 markdown: kramdown
+highlighter: rouge
 
 plugins:
   - jekyll-feed

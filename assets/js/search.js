@@ -21,27 +21,40 @@ function searchPosts(query, posts) {
 
 document.addEventListener("DOMContentLoaded", async () => {
   const input = document.querySelector("input[type='search']");
+  const container = document.createElement("div");
+  container.className = "list-group position-absolute w-100 shadow";
+
   if (!input) return;
 
-  const posts = await loadSearchIndex();
-  const container = document.createElement("div");
-  container.className = "list-group mt-3";
-
+  input.parentNode.style.position = "relative";
   input.parentNode.appendChild(container);
 
-  input.addEventListener("input", (e) => {
-    const query = e.target.value.trim();
+  const res = await fetch("/dev-blog/search.json");
+  const posts = await res.json();
 
-    if (query.length < 2) {
+  function search(query) {
+    query = query.toLowerCase();
+
+    return posts.filter(p =>
+      p.title.toLowerCase().includes(query) ||
+      p.excerpt.toLowerCase().includes(query) ||
+      (p.tags || []).join(" ").includes(query)
+    );
+  }
+
+  input.addEventListener("input", (e) => {
+    const q = e.target.value.trim();
+
+    if (q.length < 2) {
       container.innerHTML = "";
       return;
     }
 
-    const results = searchPosts(query, posts);
+    const results = search(q);
 
     container.innerHTML = results.map(post => `
-      <a href="${post.url}" class="list-group-item list-group-item-action">
-        <strong>${post.title}</strong><br>
+      <a href="${post.url}" class="list-group-item list-group-item-action bg-dark text-light border-secondary">
+        <div class="fw-bold">${post.title}</div>
         <small class="text-muted">${post.date}</small>
       </a>
     `).join("");
