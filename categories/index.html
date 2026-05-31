@@ -18,7 +18,7 @@ title: Categories
     <ul class="list-group">
       {% for post in category[1] %}
         <li class="list-group-item">
-          <a href="{{ post.url }}">{{ post.title }}</a>
+          <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
           <small class="text-muted d-block">
             {{ post.date | date: "%Y-%m-%d" }}
           </small>
