@@ -3,38 +3,74 @@ layout: default
 title: Home
 ---
 
-<div class="row">
-  <div class="col-12">
+<section class="hero">
+  <h1>Conor Damery</h1>
 
-    {% for post in site.posts %}
+  <p class="hero-subtitle">
+    A devlog about game engines, rendering, and low-level systems.
+  </p>
+</section>
 
-      <div class="card mb-3">
-        <div class="card-body">
+<section class="home-layout">
 
-          <h4 class="mb-1">
-            <a href="{{ post.url | relative_url }}">
-              {{ post.title }}
-            </a>
-          </h4>
+  <!-- MAIN POSTS -->
+  <div class="home-posts">
 
-          <div class="text-muted small">
-            {{ post.date | date: "%Y-%m-%d" }}
-          </div>
+    <h2 class="section-title">Recent Posts</h2>
 
-          <p class="mt-2 mb-2">
-            {{ post.excerpt }}
-          </p>
+    {% for post in site.posts limit:8 %}
 
-          {% for tag in post.tags %}
-            <span class="badge bg-dark border border-secondary me-1">
-              {{ tag }}
-            </span>
-          {% endfor %}
+    <article class="card post-card mb-4">
 
+      <div class="card-body">
+
+        <div class="post-date">
+          {{ post.date | date: "%B %d, %Y" }}
         </div>
+
+        <h3 class="post-title">
+          <a href="{{ post.url | relative_url }}">
+            {{ post.title }}
+          </a>
+        </h3>
+
+        <p class="post-excerpt">
+          {{ post.excerpt | strip_html | truncate: 180 }}
+        </p>
+
+        {% if post.tags %}
+        <div class="post-tags">
+          {% for tag in post.tags %}
+          <span class="tag">{{ tag }}</span>
+          {% endfor %}
+        </div>
+        {% endif %}
+
       </div>
+
+    </article>
 
     {% endfor %}
 
   </div>
-</div>
+
+  <!-- SIDE PANEL -->
+  <aside class="home-sidebar">
+
+    <div class="sidebar-box">
+
+      <h3>Support the Project</h3>
+
+      <p>
+        If you enjoy the devlog, consider supporting the work.
+      </p>
+
+      <a class="support-btn" href="https://www.patreon.com/cw/ConorDamery">
+        Become a supporter
+      </a>
+
+    </div>
+
+  </aside>
+
+</section>

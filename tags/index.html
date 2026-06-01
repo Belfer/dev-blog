@@ -3,53 +3,51 @@ layout: default
 title: Tags
 ---
 
-<h1 class="mb-4">Tags</h1>
+<h1>Tags</h1>
 
-{% assign sorted_tags = site.tags | sort %}
+<div class="tags-layout">
 
-<div class="row">
+  <div class="tags-sidebar">
 
-  <div class="col-md-4">
+    {% assign sorted_tags = site.tags | sort %}
 
-    <ul class="list-group">
+    <ul class="tag-index">
 
       {% for tag in sorted_tags %}
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-
-          <a href="#{{ tag[0] }}">
-            {{ tag[0] }}
-          </a>
-
-          <span class="badge bg-primary rounded-pill">
-            {{ tag[1].size }}
-          </span>
-
-        </li>
+      <li>
+        <a href="#{{ tag[0] }}">
+          {{ tag[0] }} ({{ tag[1].size }})
+        </a>
+      </li>
       {% endfor %}
 
     </ul>
 
   </div>
 
-  <div class="col-md-8">
+  <div class="tags-content">
 
     {% for tag in sorted_tags %}
 
-      <section id="{{ tag[0] }}" class="mb-5">
+    <section id="{{ tag[0] }}" class="tag-block">
 
-        <h3>{{ tag[0] }}</h3>
+      <h2>{{ tag[0] }}</h2>
 
-        <ul class="list-group">
+      <ul class="blog-list">
 
-          {% for post in tag[1] %}
-            <li class="list-group-item">
-              <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
-            </li>
-          {% endfor %}
+        {% for post in tag[1] %}
 
-        </ul>
+        <li class="blog-item">
+          <a href="{{ post.url | relative_url }}">
+            {{ post.title }}
+          </a>
+        </li>
 
-      </section>
+        {% endfor %}
+
+      </ul>
+
+    </section>
 
     {% endfor %}
 

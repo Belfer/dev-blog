@@ -3,29 +3,34 @@ layout: default
 title: Categories
 ---
 
-<h1 class="mb-4">Categories</h1>
+<h1>Categories</h1>
 
-{% assign sorted_categories = site.categories | sort %}
+{% assign sorted = site.categories | sort %}
 
-{% for category in sorted_categories %}
+{% for category in sorted %}
 
-  <div class="mb-4">
+  <section class="category-block">
 
-    <h3 class="border-bottom pb-2">
-      {{ category[0] }}
-    </h3>
+    <h2>{{ category[0] }}</h2>
 
-    <ul class="list-group">
+    <ul class="blog-list">
+
       {% for post in category[1] %}
-        <li class="list-group-item">
-          <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
-          <small class="text-muted d-block">
-            {{ post.date | date: "%Y-%m-%d" }}
-          </small>
-        </li>
+
+      <li class="blog-item">
+        <a href="{{ post.url | relative_url }}">
+          {{ post.title }}
+        </a>
+
+        <span class="mini-date">
+          {{ post.date | date: "%Y-%m-%d" }}
+        </span>
+      </li>
+
       {% endfor %}
+
     </ul>
 
-  </div>
+  </section>
 
 {% endfor %}

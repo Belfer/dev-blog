@@ -1,31 +1,37 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <div class="container-fluid">
+<nav class="navbar">
 
-    <a class="navbar-brand" href="{{ '/' | relative_url }}">Conor Damery</a>
+  <div class="nav-inner">
 
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+    <!-- LEFT -->
+    <div class="nav-left">
+      <a class="nav-brand" href="{{ '/' | relative_url }}">
+        <span class="brand-icon">◆</span>
+        <span>Conor Damery</span>
+      </a>
 
-    <div class="collapse navbar-collapse" id="nav">
-      <ul class="navbar-nav me-auto">
+      <span class="nav-divider"></span>
 
-        <li class="nav-item">
-          <a class="nav-link" href="{{ '/' | relative_url }}">Home</a>
-        </li>
+      <a class="nav-link" href="{{ '/blogs/' | relative_url }}">
+        Blogs
+      </a>
+    </div>
 
-        <li class="nav-item">
-          <a class="nav-link" href="{{ '/categories/' | relative_url }}">Categories</a>
-        </li>
+    <!-- MIDDLE FLEX SPACER -->
+    <div class="nav-spacer"></div>
 
-        <li class="nav-item">
-          <a class="nav-link" href="{{ '/tags/' | relative_url }}">Tags</a>
-        </li>
+    <!-- RIGHT -->
+    <div class="nav-right">
 
-      </ul>
+      <a class="nav-icon" href="https://github.com/Belfer" target="_blank">
+        G
+      </a>
 
-      {% include search.html %}
+      <a class="nav-icon" href="https://www.patreon.com/cw/ConorDamery" target="_blank">
+        P
+      </a>
+
     </div>
 
   </div>
+
 </nav>
