@@ -27,8 +27,52 @@ layout: default
 
   </header>
 
-  <div class="post-content">
+  <div class="post-content" style="margin-top: 30px;">
     {{ content }}
   </div>
+  
+  <script>
+    (function() {
+      document.addEventListener("DOMContentLoaded", function () {
+        // Direct targeting of Jekyll containers
+        const containers = document.querySelectorAll(".highlighter-rouge, figure.highlight");
+
+        containers.forEach(function (container) {
+          // Prevent adding multiple buttons if script runs twice
+          if (container.querySelector(".code-copy-btn")) return;
+
+          // Extract the code text inside
+          const codeElement = container.querySelector("code");
+          if (!codeElement) return;
+
+          // Create Button
+          const button = document.createElement("button");
+          button.className = "code-copy-btn";
+          button.type = "button";
+          button.innerText = "Copy";
+
+          // Append directly to the outer styled container
+          container.appendChild(button);
+
+          // Click Logic
+          button.addEventListener("click", function () {
+            const textToCopy = codeElement.innerText;
+
+            navigator.clipboard.writeText(textToCopy).then(function () {
+              button.innerText = "Copied!";
+              button.style.borderColor = "#28a745";
+              
+              setTimeout(function () {
+                button.innerText = "Copy";
+                button.style.borderColor = "#495057";
+              }, 2000);
+            }).catch(function (err) {
+              console.error("Clipboard copy failed: ", err);
+            });
+          });
+        });
+      });
+    })();
+  </script>
 
 </article>

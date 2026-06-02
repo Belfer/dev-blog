@@ -9,4 +9,11 @@ highlighter: rouge
 plugins:
   - jekyll-feed
 
-permalink: /:categories/:title/
+permalink: /:categories/:year/:month/:day/:title/
+
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: post
