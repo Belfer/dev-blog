@@ -1,0 +1,10 @@
+{%- assign align = include.align | default: "center" -%}
+{%- assign wrap = include.wrap | default: "none" -%}
+
+<figure class="custom-figure align-{{ align }} wrap-{{ wrap }}">
+  <!-- It now automatically pulls page.assets_dir from the front matter -->
+  <img src="{{ site.baseurl }}{{ page.assets_dir }}{{ include.url }}" alt="{{ include.alt }}">
+  {% if include.caption %}
+    <figcaption>{{ include.caption }}</figcaption>
+  {% endif %}
+</figure>

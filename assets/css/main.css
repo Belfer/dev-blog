@@ -346,6 +346,72 @@ img {
   border-radius: 14px;
 }
 
+.custom-figure {
+  margin: 1.5rem auto;
+  max-width: 100%;
+  display: block;
+}
+
+.custom-figure img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto; /* Keeps the actual image centered inside the figure */
+}
+
+.custom-figure figcaption {
+  font-size: 0.85em;
+  color: #666;
+  margin-top: 0.5rem;
+}
+
+.custom-figure.align-center { text-align: center; }
+.custom-figure.align-left   { text-align: left; }
+.custom-figure.align-right  { text-align: right; }
+
+.custom-figure.wrap-left {
+  float: left;
+  margin: 0.5rem 1.5rem 1rem 0;
+  max-width: 40%; /* Prevents the image from swallowing the paragraph */
+}
+
+.custom-figure.wrap-right {
+  float: right;
+  margin: 0.5rem 0 1rem 1.5rem;
+  max-width: 40%;
+}
+
+.custom-figure.wrap-left, .custom-figure.wrap-right {
+  clear: both;
+}
+
+/* Style the file header tab */
+.code-file {
+  display: inline-block;
+  background: #2d3139;       /* Match this to your syntax theme background */
+  color: #abb2bf;            /* Soft text color */
+  font-family: monospace;    /* Keeps text matching the code font */
+  font-size: 0.85rem;
+  padding: 0.3rem 0.8rem;
+  border-radius: 4px 4px 0 0; /* Rounded top corners only */
+  margin-bottom: -10px;       /* Pulls the code block up to meet the tab */
+  position: relative;
+  z-index: 1;                /* Keeps it layered perfectly on top */
+  border: 1px solid #1e222b;  /* Optional: subtle border */
+  border-bottom: none;
+}
+
+/* Ensure the code block below it flushes perfectly against the tab */
+.code-file + .highlighter-rouge,
+.code-file + div[class^="language-"] {
+  margin-top: 0 !important;
+}
+
+.code-file + .highlighter-rouge pre,
+.code-file + div[class^="language-"] pre {
+  border-top-left-radius: 0 !important; /* Flattens the top left corner under the tab */
+}
+
 code,
 pre {
   font-family: "JetBrains Mono", Consolas, monospace !important;
@@ -353,10 +419,19 @@ pre {
 
 p code,
 li code {
-  background: #1d2633;
-  padding: 2px 6px;
-  border-radius: 6px;
-  color: #ff7b72;
+  display: inline !important;
+  float: none !important;
+  clear: none !important;
+  position: static !important;
+  
+  background: #1d2633 !important;
+  color: #ff7b72 !important;
+  padding: 2px 6px !important;
+  border-radius: 6px !important;
+}
+
+p {
+  display: block !important;
 }
 
 .highlighter-rouge pre,
