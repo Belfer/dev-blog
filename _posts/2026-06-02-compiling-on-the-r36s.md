@@ -1,8 +1,9 @@
 ---
-title: "Compiling on the R36S"
 date: 2026-06-02
-categories: r36s
-tags: [cmake, engine]
+title: "Compiling on the R36S"
+description: "Let's get the R36S set up for development by connecting to it over SSH, configuring Visual Studio for remote builds, and creating a simple application."
+categories: tutorial
+tags: [r36s, cmake, engine]
 assets_dir: /assets/posts/2026-06-02-compiling-on-the-r36s/
 ---
 
