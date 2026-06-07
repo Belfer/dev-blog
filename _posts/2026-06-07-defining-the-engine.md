@@ -216,29 +216,6 @@ static GLuint vao = 0;
 static GLuint vbo = 0;
 static GLuint ebo = 0;
 
-static const float vertices[] =
-{
-    -0.5f,-0.5f,-0.5f,    1,0,0,
-     0.5f,-0.5f,-0.5f,    0,1,0,
-     0.5f, 0.5f,-0.5f,    0,0,1,
-    -0.5f, 0.5f,-0.5f,    1,1,0,
-
-    -0.5f,-0.5f, 0.5f,    1,0,1,
-     0.5f,-0.5f, 0.5f,    0,1,1,
-     0.5f, 0.5f, 0.5f,    1,1,1,
-    -0.5f, 0.5f, 0.5f,    0.2f,0.8f,0.3f
-};
-
-static const unsigned int indices[] =
-{
-    0,1,2, 2,3,0,
-    4,5,6, 6,7,4,
-    4,0,3, 3,7,4,
-    1,5,6, 6,2,1,
-    4,5,1, 1,0,4,
-    3,2,6, 6,7,3
-};
-
 static const char* vs_src =
 R"(#version 310 es
 layout(location = 0) in vec3 aPos;
@@ -265,32 +242,48 @@ void main() {
 }
 )";
 
-static GLuint create_program(const char* vsrc, const char* fsrc)
+static const float vertices[] =
 {
-    GLuint vs = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(vs, 1, &vsrc, nullptr);
-    glCompileShader(vs);
+    -0.5f,-0.5f,-0.5f,    1,0,0,
+     0.5f,-0.5f,-0.5f,    0,1,0,
+     0.5f, 0.5f,-0.5f,    0,0,1,
+    -0.5f, 0.5f,-0.5f,    1,1,0,
 
-    GLuint fs = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(fs, 1, &fsrc, nullptr);
-    glCompileShader(fs);
-    
-    GLuint p = glCreateProgram();
-    glAttachShader(p, vs);
-    glAttachShader(p, fs);
-    glLinkProgram(p);
+    -0.5f,-0.5f, 0.5f,    1,0,1,
+     0.5f,-0.5f, 0.5f,    0,1,1,
+     0.5f, 0.5f, 0.5f,    1,1,1,
+    -0.5f, 0.5f, 0.5f,    0.2f,0.8f,0.3f
+};
 
-    glDeleteShader(vs);
-    glDeleteShader(fs);
-
-    return p;
-}
+static const unsigned int indices[] =
+{
+    0,1,2, 2,3,0,
+    4,5,6, 6,7,4,
+    4,0,3, 3,7,4,
+    1,5,6, 6,2,1,
+    4,5,1, 1,0,4,
+    3,2,6, 6,7,3
+};
 
 static void config(int argc, char** args) {}
 
 static bool init()
 {
-    program = create_program(vs_src, fs_src);
+    GLuint vs = glCreateShader(GL_VERTEX_SHADER);
+    glShaderSource(vs, 1, &vs_src, nullptr);
+    glCompileShader(vs);
+
+    GLuint fs = glCreateShader(GL_FRAGMENT_SHADER);
+    glShaderSource(fs, 1, &fs_src, nullptr);
+    glCompileShader(fs);
+
+    program = glCreateProgram();
+    glAttachShader(program, vs);
+    glAttachShader(program, fs);
+    glLinkProgram(program);
+
+    glDeleteShader(vs);
+    glDeleteShader(fs);
 
     glEnable(GL_DEPTH_TEST);
 
