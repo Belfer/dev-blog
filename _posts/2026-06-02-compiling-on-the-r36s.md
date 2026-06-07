@@ -8,11 +8,17 @@ assets_dir: /assets/posts/2026-06-02-compiling-on-the-r36s/
 
 ##### Introduction
 
-In this blog we will explore the most straightforward way to compile on the R36S. Note that there are a few ways in which we can develop for this target. The approach I will show here is to simply SSH into the device, copy all the files to the remote, and compile on the device itself. However, a more robust setup would be to create a virtual environment on our local computer, set up the toolchain for the device, and compile locally, then send the binaries and assets over the network and debug remotely. But this setup is a lot more involved, and for now I want to simply get into the low-level details on working with the device, so we will choose the first (easiest) option.
+In this blog we will explore the most straightforward way to compile on the R36S. Note that there are a few ways we can develop for this device. The approach I will show here is to simply SSH into the device, copy the files over, and compile directly on the device itself.
 
-We will take advantage of the fact that Visual Studio allows for remote development and has CMake integration to get us started. This unfortunately means that for any readers not using Windows, their setup will have to be done manually with VS Code or something similar. Fortunately, since we're still using CMake, once your setup is working, the project and source code should seamlessly run after the development environment is set up.
+A more robust approach would be to create a development environment on our local machine, set up the appropriate toolchain, compile locally, and then send the binaries and assets over the network while debugging remotely. However, that approach is considerably more involved, and for now I want to focus on the low-level details of working with the device, so we'll stick with the first (and easiest) option.
 
-One last thing before we move on: if you're planning on buying this device, please pay attention to the store you buy it from. Unfortunately, there are many counterfeit clone devices under the name of the R36S that simply don't follow the original specs and instead replace components with cheaper or less powerful parts. The device is already not very powerful, so it's important that you get the proper device, as some features later on in this series will assume you have certain GPU features. My advice is to look for a model called R36XX. It's basically the same as the R36S, but it has built-in WiFi and slightly better ergonomics. Even better, there are no known clones of this device (as of the time of this writing). For more information, check out [this website](https://handhelds.wiki/R36S_Buying_Guide).
+We will take advantage of the fact that Visual Studio supports remote development and has built-in CMake integration. This unfortunately means that readers not using Windows will need to set things up manually with VS Code or a similar editor. Good news is that since we're still using CMake, the project and source code should work without modification once your development environment is configured.
+
+One last thing before we move on: if you're planning on buying this device, please pay attention to the store you buy it from. Sadly, there are many counterfeit R36S devices on the market that do not follow the original specifications and instead replace components with cheaper or less capable alternatives.
+
+The hardware is already fairly constrained, so it's important to get a genuine device, as some features later in this series will assume the presence of the expected GPU capabilities. My recommendation is to look for a model called R36XX. It's essentially the same device as the R36S, but with built-in WiFi and slightly better ergonomics. Even better is that there are currently no known clones of this model.
+
+For more information, check out [this buying guide](https://handhelds.wiki/R36S_Buying_Guide).
 
 ##### Setup
 
@@ -141,9 +147,13 @@ int main(int argc, char** args)
 
 ##### Remote Connection
 
-Ok, here is where we might differ. The R36S has multiple firmwares, and each firmware behaves a bit differently. For the sake of popularity, I will be using dArkOS, as it's the most widely used firmware, and chances are that when you buy this device it will have a firmware similar to this.
+The R36S has multiple firmwares, and each firmware behaves a bit differently. For the sake of consistency, I will be using dArkOS for now, as it's currently one the most widely used firmware for this device, and chances are that when you buy this device it will have a firmware similar to this. If you are running a different firmware, some menu names and steps may vary, but the overall goal is the same.
 
-Without going into too much detail, you will want to go to your settings, set up your WiFi access point, and then look for the “Enable Remote Services” option, which will start the SSH server we need to connect to it. After that, you can test the connection with a shell terminal using the default credentials (for dArkOS): `username:ark` and `password:ark`, unless changed. It should look something like this:
+Before continuing, make sure your device is connected to your Wi-Fi network and that SSH access is enabled. On dArkOS, this can be done through the Enable Remote Services option in the settings menu, which starts the SSH server required for remote access. If you're using another firmware, consult its documentation for the equivalent option.
+
+Once SSH is enabled, verify that you can connect from a terminal using the default dArkOS credentials (unless they have been changed): `username: ark` and `password: ark`.
+
+It should look something like this:
 
 {% include figure.html url="ssh.png" alt="dArkOS SSH Connection" caption="dArkOS SSH Connection" %}
 
@@ -151,7 +161,16 @@ Great—having that working, you can now open Visual Studio with the CMake proje
 
 {% include figure.html url="vs_remote1.png" alt="Visual Studio Remote Connection" caption="Fig. 1: Visual Studio Remote Connection" %}
 
-Select the remote target and run the project.
+To build and debug remotely from Visual Studio, the target device needs to have `build-essential`, `gdb`, `cmake`, and `ninja-build` installed. Now is a good time to verify that these dependencies are available. If your device has internet access and is running a Debian-based distribution such as dArkOS, you can install them with:
+
+```shell
+sudo apt update
+sudo apt install -y build-essential gdb cmake ninja-build
+```
+
+When working with this setup, make sure EmulationStation is shut down while developing so it doesn't interfere with KMS/DRM display ownership or input handling.
+
+Once everything is ready, select the remote target and start the project. 
 
 {% include figure.html url="vs_remote2.png" alt="Visual Studio Remote Connection" caption="Fig. 2: Visual Studio Remote Connection" %}
 
@@ -159,20 +178,15 @@ If everything works, you should see a `Hello World` printed in your Remote Conso
 
 {% include figure.html url="vs_remote3.png" alt="Visual Studio Remote Connection" caption="Fig. 3: Visual Studio Remote Connection" %}
 
-Note that for Visual Studio to debug remotely, the remote device needs to have `build-essential`, `gdb`, `cmake`, and `ninja-build` installed. If your device has access to the internet and is running Debian (like dArkOS), you can install these dependencies with:
-
-```shell
-sudo apt update
-sudo apt install -y build-essential gdb cmake ninja-build
-```
-
 ##### Simple Application
 
-Now that we have a way to compile and run on the device, we can finish this blog by making a simple application. The R36S firmware usually does not provide an X11 environment, which means we would have to create our own display manager if we wanted to render something on screen using the integrated GPU. Doing this manually is a lot of work, and it’s something we will cover in another blog.
+Now that we have a way to compile, deploy, and run applications on the device, we can wrap up this blog post by building a simple application.
 
-However, luckily for us, the developers of dArkOS have nicely patched a build of SDL2 and provided it as a shared library in the system. For us, that means we can simply link to it and, just like that, we have access to the SDL2 API, which is a much nicer API than Linux kernel mode setting (KMS), which SDL uses internally.
+Most R36S firmware distributions do not provide an X11 environment, which means we would have to make our own display manager if we wanted to render something on screen. Doing this manually is quite a bit of work, and it's something we'll cover in a future blog.
 
-Ok, so let’s add the dependency and create a simple app:
+Luckily for us, the developers of dArkOS have patched SDL2 and provide it as a shared library on the system. For us, that means we can simply link against it and, just like that, have access to the SDL2 API. This is a much nicer API to work with than the Linux kernel mode setting (KMS) interfaces that SDL uses internally.
+
+So, let's add the dependency and create a simple app:
 
 <div class="code-file">CMakeLists.txt</div>
 ```cmake
@@ -197,7 +211,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE SDL2::SDL2)
 ```
 
 <div class="code-file">src/main.cpp</div>
-```c
+```cpp
 #include <SDL2/SDL.h>
 #include <iostream>
 
@@ -252,6 +266,8 @@ int main(int argc, char** args)
     return 0;
 }
 ```
+
+{% include figure.html url="sdl.jpeg" alt="Simple Application" caption="Simple Application" %}
 
 And isn’t that nice and easy? We now have a working setup for real-time application development on the R36S.
 
